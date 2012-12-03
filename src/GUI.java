@@ -83,7 +83,7 @@ public class GUI {
 
 	private void setupMultiChoice1(JPanel panel) {
 				
-		panel.setLayout(new MigLayout("", "[grow,left][grow]", "[][][][grow][]"));
+		panel.setLayout(new MigLayout("", "[grow][]", "[][][][grow][]"));
 		
 		JLabel explination = new JLabel("Multiple choice question with one correct answer");
 		JLabel title = new JLabel("Question Title:");	
@@ -108,12 +108,14 @@ public class GUI {
 		final ArrayList<JTextField> answers = new ArrayList<JTextField>();
 		final ArrayList<JRadioButton> select = new ArrayList<JRadioButton>();
 		
+		
 		for(int i=0; i<2; i++){
 			answers.add(new JTextField());
 			select.add(new JRadioButton());
 			
 			selectgrGroup.add(select.get(i));
 		}
+		select.get(0).setSelected(true);
 		
 		
 		addAnswer.addActionListener(new ActionListener() {
@@ -155,6 +157,35 @@ public class GUI {
 		});
 		
 		
+		generate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ArrayList<String> answerStrings = new ArrayList<String>();
+				int correctAnswer = 0;
+				
+				for(int i=0; i<answers.size(); i++){
+					answerStrings.add(answers.get(i).getText());
+					
+					if(select.get(i).isSelected()){
+						correctAnswer = i;
+					}
+				}
+
+				giftCode.append("//Question " + questionNumber + "\n");
+				
+				giftCode.append(
+						GiftGenerator.GenerateMultiChoice(titleName.getText(), question.getText(), answerStrings, correctAnswer)
+							+ "\n\n");
+				
+				questionNumber++;
+				
+				
+			}
+		});
+		
+		
 		clear.addActionListener(new ActionListener() {
 			
 			@Override
@@ -191,34 +222,14 @@ public class GUI {
 	
 	}
 
-	private void setupOutput(JPanel panel) {
-		
-		panel.setLayout(new MigLayout("", "[grow]", "[400px:n,grow][]"));		
-		JScrollPane scrollPane = new JScrollPane(giftCode);
-		JButton save = new JButton("Save");
-		JButton clear = new JButton("Clear");
-		
-		clear.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
 
-				giftCode.setText("");
-				questionNumber = 1;
-				
-			}
-		});
-		
-		panel.add(scrollPane, "cell 0 0, grow");
-		panel.add(clear, "align right, cell 0 1");
-		panel.add(save, "align right, cell 0 1");
-		
-	}
-
+	
+	
 	private void setupTrueFalse(JPanel panel) {
 		
-		panel.setLayout(new MigLayout("", "[grow]", "[][][grow][][]"));
+		panel.setLayout(new MigLayout("", "[grow]", "[][][][grow][][]"));
 		
+		JLabel explination = new JLabel("True/False statement with one correct answer.");
 		JLabel title = new JLabel("Question Title:");
 		final JTextField titleName = new JTextField();
 		
@@ -267,16 +278,43 @@ public class GUI {
 		});
 		
 		
-		panel.add(title, "cell 0 0");
-		panel.add(titleName, "cell 0 0, grow");
-		panel.add(prompt, "cell 0 1");		
-		panel.add(scrollPane, "cell 0 2,grow");		
-		panel.add(isTrue, "align right, cell 0 3");		
-		panel.add(isFalse, "align right, cell 0 3");
-		panel.add(clear, "align right, cell 0 4");
-		panel.add(generate, "align right, cell 0 4");
+		panel.add(explination, "cell 0 0");
+		panel.add(title, "cell 0 1");
+		panel.add(titleName, "cell 0 1, grow");
+		panel.add(prompt, "cell 0 2");		
+		panel.add(scrollPane, "cell 0 3,grow");		
+		panel.add(isTrue, "align right, cell 0 4");		
+		panel.add(isFalse, "align right, cell 0 4");
+		panel.add(clear, "align right, cell 0 5");
+		panel.add(generate, "align right, cell 0 5");
 
 		
 	}
 
+	
+
+	
+	private void setupOutput(JPanel panel) {
+		
+		panel.setLayout(new MigLayout("", "[grow]", "[200px:n,grow][]"));		
+		JScrollPane scrollPane = new JScrollPane(giftCode);
+		JButton save = new JButton("Save");
+		JButton clear = new JButton("Clear");
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				giftCode.setText("");
+				questionNumber = 1;
+				
+			}
+		});
+		
+		panel.add(scrollPane, "cell 0 0, grow");
+		panel.add(clear, "align right, cell 0 1");
+		panel.add(save, "align right, cell 0 1");
+		
+	}
 }

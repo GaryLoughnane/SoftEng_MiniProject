@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 
 public class GiftGenerator {
@@ -10,23 +12,65 @@ public class GiftGenerator {
 			::FalseStatement about sun::The sun rises in the West.{FALSE}
 		**/
 		
-		String question = "";
+		String gift = "";
 		
 		if(title.compareTo("") != 0){		
-			question += "::" + title + "::";
+			gift += "::" + title + "::";
 		}
 		
-		question += statement;
+		gift += statement;
 		
 		if(answer == true){
-			question += "{TRUE}";
+			gift += "{TRUE}";
 		}	
 		else{
-			question += "{FALSE}";
+			gift += "{FALSE}";
 		}
 
-		return question;
+		return gift;
 		
+	}
+	
+	
+	
+
+	public static String GenerateMultiChoice(String title, String question, ArrayList<String> answers, int correctAnswer){
+		
+		/**
+		 	::Grants tomb::Who is buried in Grant's tomb in New York City? {
+			=Grant
+			~No one
+			~Napoleon
+			~Churchill
+			~Mother Teresa
+			}
+		**/
+		
+		String gift = "";
+		
+		if(title.compareTo("") != 0){		
+			gift += "::" + title + "::";
+		}
+		
+		gift += question + "{\n";
+		
+		for(int i=0; i<answers.size(); i++){
+			
+			if(i == correctAnswer){
+				gift += "=";
+			}
+			else{
+				gift += "~";
+			}
+			
+			gift += answers.get(i) + "\n";
+			
+		}
+		
+		gift += "}";
+		
+		return gift;
+
 	}
 	
 }
