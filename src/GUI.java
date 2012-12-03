@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -53,7 +54,7 @@ public class GUI {
 		
 		//create the output panel
 		JPanel outputPanel = new JPanel();
-		outputPanel.setLayout(new MigLayout());
+		setupOutput(outputPanel);
 		
 		
 		//add input (tabbed) and output panels to main panel
@@ -73,15 +74,39 @@ public class GUI {
 		
 	}
 
+	private void setupOutput(JPanel panel) {
+		
+		panel.setLayout(new MigLayout("", "[grow]", "[400px:n,grow][]"));		
+		JScrollPane scrollPane = new JScrollPane(giftCode);
+		JButton save = new JButton("Save");
+		JButton clear = new JButton("Clear");
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				giftCode.setText("");
+				
+			}
+		});
+		
+		panel.add(scrollPane, "cell 0 0, grow");
+		panel.add(clear, "align right, cell 0 1");
+		panel.add(save, "align right, cell 0 1");
+		
+	}
+
 	private void setupTrueFalse(JPanel panel) {
 		
 		panel.setLayout(new MigLayout("", "[grow]", "[][grow][][]"));
 		
 		JLabel prompt = new JLabel("Enter your statement and select if it is true or false.");
 		JTextArea question = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(question);
 		final JRadioButton isTrue = new JRadioButton("This statement is true.", true);
 		final JRadioButton isFalse = new JRadioButton("This statement is false.", false);
-		JButton execute = new JButton("Generate Output");
+		JButton execute = new JButton("Generate Code");
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(isTrue);
@@ -105,21 +130,12 @@ public class GUI {
 		});
 		
 		
-		panel.add(prompt, "cell 0 0");
-		
-		
-		panel.add(question, "cell 0 1,grow");
-		
-		panel.add(isTrue, "align right, cell 0 2");
-		
-		
+		panel.add(prompt, "cell 0 0");		
+		panel.add(scrollPane, "cell 0 1,grow");		
+		panel.add(isTrue, "align right, cell 0 2");		
 		panel.add(isFalse, "align right, cell 0 2");
-
 		panel.add(execute, "align right, cell 0 3");
 
-		
-		
-		
 		
 	}
 
