@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
@@ -9,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -20,6 +22,7 @@ import net.miginfocom.swing.MigLayout;
 public class GUI {
 	
 	JTextArea giftCode = new JTextArea();
+	int questionNumber = 1;
 	
 	public GUI(){
 		
@@ -87,6 +90,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent arg0) {
 
 				giftCode.setText("");
+				questionNumber = 1;
 				
 			}
 		});
@@ -99,42 +103,64 @@ public class GUI {
 
 	private void setupTrueFalse(JPanel panel) {
 		
-		panel.setLayout(new MigLayout("", "[grow]", "[][grow][][]"));
+		panel.setLayout(new MigLayout("", "[grow]", "[][][grow][][]"));
 		
-		JLabel prompt = new JLabel("Enter your statement and select if it is true or false.");
-		JTextArea question = new JTextArea();
+		JLabel title = new JLabel("Question Title:");
+		final JTextField titleName = new JTextField();
+		
+		JLabel prompt = new JLabel("Enter a statement and select if it is true or false.");
+		final JTextArea question = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(question);
 		final JRadioButton isTrue = new JRadioButton("This statement is true.", true);
 		final JRadioButton isFalse = new JRadioButton("This statement is false.", false);
-		JButton execute = new JButton("Generate Code");
+		JButton generate = new JButton("Generate Code");
+		JButton clear = new JButton("Clear");
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(isTrue);
 		group.add(isFalse);
 		
-		execute.addActionListener(new ActionListener() {
+		generate.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				if(isTrue.isSelected()){
-					
-					System.out.println("TRUE");
-					
-				}
-				else if(isFalse.isSelected()){
-						
-					System.out.println("FALSE");
-				}				
+				
+				boolean answer = false;
+				
+				if(isTrue.isSelected()) answer = true;
+				else if(isFalse.isSelected()) answer = false;
+				
+				
+				giftCode.append("//Question " + questionNumber + "\n");
+				
+				giftCode.append(
+						GiftGenerator.GenerateTrueFalse(titleName.getText(), question.getText(), answer)
+							+ "\n\n");
+				
+				questionNumber++;
+			}
+		});
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				titleName.setText("");
+				question.setText("");
+				
 			}
 		});
 		
 		
-		panel.add(prompt, "cell 0 0");		
-		panel.add(scrollPane, "cell 0 1,grow");		
-		panel.add(isTrue, "align right, cell 0 2");		
-		panel.add(isFalse, "align right, cell 0 2");
-		panel.add(execute, "align right, cell 0 3");
+		panel.add(title, "cell 0 0");
+		panel.add(titleName, "cell 0 0, grow");
+		panel.add(prompt, "cell 0 1");		
+		panel.add(scrollPane, "cell 0 2,grow");		
+		panel.add(isTrue, "align right, cell 0 3");		
+		panel.add(isFalse, "align right, cell 0 3");
+		panel.add(clear, "align right, cell 0 4");
+		panel.add(generate, "align right, cell 0 4");
 
 		
 	}
