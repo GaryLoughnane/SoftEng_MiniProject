@@ -101,116 +101,220 @@ public class GUI {
 
 		panel.setLayout(new MigLayout("", "[grow]", "[][][][][grow]"));
 		
-		
-		/**
-		JLabel explanation = new JLabel("Question with matching pairs of answers.");
-		explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
-		JLabel title = new JLabel("Question Title:");	
-		JLabel questionPrompt = new JLabel("Enter a question.");
-		JLabel answerPrompt = new JLabel("Enter pairs of matching answers.");
-		
-		final JTextField titleName = new JTextField();
-		final JTextField question = new JTextField();
-		
-		JButton addAnswer = new JButton("Add Answer");
-		JButton remAnswer = new JButton("Remove Answer");
-		JButton clear = new JButton("Clear");
-		JButton generate = new JButton("Generate Code");
-		**/
-		
-		
 		JLabel explanation = new JLabel("Various types of numerical questions");
 			explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JLabel title = new JLabel("Question Title:");
+		JLabel title = new JLabel("Question Title:");		
+		JLabel answerPrompt = new JLabel("Enter a mathamatical question.");
+		final JLabel answer1 = new JLabel("Enter answer:");
+		final JLabel range1 = new JLabel("     Enter range:");	
+		final JLabel answer2 = new JLabel("Enter correct answer:");
+		final JLabel range2 = new JLabel("     Enter range for partial mark:");
+		final JLabel range2mark = new JLabel("     Enter partial mark:");
+		final JLabel min = new JLabel("Enter min:");
+		final JLabel max = new JLabel("     Enter max:");
+		
+
+		JTextField question = new JTextField();		
 		JTextField titleName = new JTextField();
 		
-		JLabel answerPrompt = new JLabel("Enter a mathamatical question.");
-		
-		JTextField question = new JTextField("fffffffffffffff");
-		
-		
-		JPanel answerPanel = new JPanel(new MigLayout("", "[][grow]", "[][][][]"));
-		
-		JRadioButton rdbtnRange = new JRadioButton("range");
-		
-		JPanel panel_2 = new JPanel(new MigLayout("", "[][][][]", "[]"));
-			panel_2.setBorder(new TitledBorder(null, "JPanel 1", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			
-		JPanel panel_3 = new JPanel(new MigLayout("", "[][][][][][]", "[]"));
-			panel_3.setBorder(new TitledBorder(null, "JPanel 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			
-		JPanel panel_4 = new JPanel(new MigLayout("", "[][][][]", "[]"));
-			panel_4.setBorder(new TitledBorder(null, "JPanel 3", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-	
-		JLabel lblEnterAnswer = new JLabel("enter answer");
-		
-		
-		JSpinner spinner = new JSpinner();	
-			
-		JLabel lblEnterRange = new JLabel("enter range");	
-		
-		JSpinner spinner_1 = new JSpinner();
-		
-		JRadioButton rdbtnRangeWithMark = new JRadioButton("range with mark");
+		final JSpinner answer1Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
+		final JSpinner range1Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
+		final JSpinner answer2Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
+		final JSpinner range2Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
+		final JSpinner mark2Spin = new JSpinner(new SpinnerNumberModel(0, -100, 100, 1));
+		final JSpinner minSpin =  new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
+		final JSpinner maxSpin =  new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
 
-		JLabel lblEnterCorrectAnswer = new JLabel("enter correct answer");
+			
+		JButton clear = new JButton("Clear");	
+		JButton generate = new JButton("Generate Code");
+
+		JPanel answerPanel = new JPanel(new MigLayout("", "[][grow]", "[][][][]"));	
 		
-		JSpinner spinner_4 = new JSpinner();
-		
-		JLabel lblEnterRange_1 = new JLabel("enter range");
-		
-		JSpinner spinner_5 = new JSpinner();
-		JLabel lblEnterMarkFor = new JLabel("enter mark for range");
-		
-		JSpinner spinner_6 = new JSpinner();
-		JRadioButton rdbtnSpan = new JRadioButton("span");
-		
-		
-		JLabel lblRnterLower = new JLabel("rnter lower");
-		
-		JSpinner spinner_3 = new JSpinner();
-		
-		JLabel lblEnterUpper = new JLabel("enter upper");
-		
-		JSpinner spinner_2 = new JSpinner();
-		
-		JButton btnClear = new JButton("clear");
-		
-		JButton btnGenerae = new JButton("generae");
-		
-		
+		final JPanel rangePanel = new JPanel(new MigLayout("", "[][][][]", "[]"));
+			rangePanel.setBorder(new TitledBorder(null, "Range", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			
+		final JPanel rangeMarkPanel = new JPanel(new MigLayout("", "[][][][][][]", "[]"));
+			rangeMarkPanel.setBorder(new TitledBorder(null, "Range with mark", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			
+		final JPanel spanPanel = new JPanel(new MigLayout("", "[][][][]", "[]"));
+			spanPanel.setBorder(new TitledBorder(null, "Span", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			
 		
+		JRadioButton range = new JRadioButton("Simple Range");
+		JRadioButton rangeMark = new JRadioButton("Range with mark");
+		JRadioButton span = new JRadioButton("Span");
+		
+		
+		ButtonGroup selectGroup= new ButtonGroup();
+			selectGroup.add(range);
+			selectGroup.add(rangeMark);
+			selectGroup.add(span);
+			
+			
+		range.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				rangePanel.setEnabled(true);
+				rangeMarkPanel.setEnabled(false);
+				spanPanel.setEnabled(false);
+				
+				
+				
+				answer1Spin.setEnabled(true);
+				range1Spin.setEnabled(true);
+				
+				answer2Spin.setEnabled(false);
+				range2Spin.setEnabled(false);
+				mark2Spin.setEnabled(false);
+				
+				minSpin.setEnabled(false);
+				maxSpin.setEnabled(false);
+				
+				
+				
+				answer1.setEnabled(true);
+				range1.setEnabled(true);
+				
+				answer2.setEnabled(false);
+				range2.setEnabled(false);
+				range2mark.setEnabled(false);
+				
+				min.setEnabled(false);
+				max.setEnabled(false);
+
+			}
+		});
+		
+		
+		
+		rangeMark.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				rangePanel.setEnabled(false);
+				rangeMarkPanel.setEnabled(true);
+				spanPanel.setEnabled(false);
+				
+				
+				
+				answer1Spin.setEnabled(false);
+				range1Spin.setEnabled(false);
+				
+				answer2Spin.setEnabled(true);
+				range2Spin.setEnabled(true);
+				mark2Spin.setEnabled(true);
+				
+				minSpin.setEnabled(false);
+				maxSpin.setEnabled(false);
+				
+				
+				
+				answer1.setEnabled(false);
+				range1.setEnabled(false);
+				
+				answer2.setEnabled(true);
+				range2.setEnabled(true);
+				range2mark.setEnabled(true);
+				
+				min.setEnabled(false);
+				max.setEnabled(false);
+
+			}
+		});
+		
+		
+		
+		span.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				rangePanel.setEnabled(false);
+				rangeMarkPanel.setEnabled(false);
+				spanPanel.setEnabled(true);
+				
+				
+				
+				answer1Spin.setEnabled(false);
+				range1Spin.setEnabled(false);
+				
+				answer2Spin.setEnabled(false);
+				range2Spin.setEnabled(false);
+				mark2Spin.setEnabled(false);
+				
+				minSpin.setEnabled(true);
+				maxSpin.setEnabled(true);
+				
+				
+				
+				answer1.setEnabled(false);
+				range1.setEnabled(false);
+				
+				answer2.setEnabled(false);
+				range2.setEnabled(false);
+				range2mark.setEnabled(false);
+				
+				min.setEnabled(true);
+				max.setEnabled(true);
+
+			}
+		});
+		
+		
+		rangePanel.setEnabled(true);
+		rangeMarkPanel.setEnabled(false);
+		spanPanel.setEnabled(false);
+		answer1Spin.setEnabled(true);
+		range1Spin.setEnabled(true);
+		answer2Spin.setEnabled(false);
+		range2Spin.setEnabled(false);
+		mark2Spin.setEnabled(false);
+		minSpin.setEnabled(false);
+		maxSpin.setEnabled(false);
+		answer1.setEnabled(true);
+		range1.setEnabled(true);
+		answer2.setEnabled(false);
+		range2.setEnabled(false);
+		range2mark.setEnabled(false);
+		min.setEnabled(false);
+		max.setEnabled(false);
+		
+	
+			
 		
 		panel.add(explanation, "cell 0 0");	
 		panel.add(title, "flowx,cell 0 1");
-		panel.add(titleName, "cell 0 1");
+		panel.add(titleName, "flowx,cell 0 1,growx");
 		panel.add(answerPrompt, "cell 0 2");
 		panel.add(question, "cell 0 3,growx");
 		panel.add(answerPanel, "cell 0 4,grow");
-		answerPanel.add(rdbtnRange, "cell 0 0");
-		answerPanel.add(panel_2, "cell 1 0,grow");
-		panel_2.add(lblEnterAnswer, "cell 0 0");
-		panel_2.add(spinner, "cell 1 0");
-		panel_2.add(lblEnterRange, "cell 2 0");
-		panel_2.add(spinner_1, "cell 3 0");	
-		answerPanel.add(rdbtnRangeWithMark, "cell 0 1");
-		answerPanel.add(panel_3, "cell 1 1,grow");
-		panel_3.add(lblEnterCorrectAnswer, "cell 0 0");
-		panel_3.add(spinner_4, "cell 1 0");
-		panel_3.add(lblEnterRange_1, "cell 2 0");
-		panel_3.add(spinner_5, "cell 3 0");
-		panel_3.add(lblEnterMarkFor, "cell 4 0");
-		panel_3.add(spinner_6, "cell 5 0");
-		answerPanel.add(rdbtnSpan, "cell 0 2");
-		answerPanel.add(panel_4, "cell 1 2,grow");
-		panel_4.add(lblRnterLower, "cell 0 0");
-		panel_4.add(spinner_3, "cell 1 0");
-		panel_4.add(lblEnterUpper, "cell 2 0");
-		panel_4.add(spinner_2, "cell 3 0");		
-		answerPanel.add(btnClear, "flowx,cell 1 3,alignx right");
-		answerPanel.add(btnGenerae, "cell 1 3,alignx right");
+		answerPanel.add(range, "cell 0 0");
+		answerPanel.add(rangePanel, "cell 1 0,grow");
+		rangePanel.add(answer1, "cell 0 0");
+		rangePanel.add(answer1Spin, "cell 1 0");
+		rangePanel.add(range1, "cell 2 0");
+		rangePanel.add(range1Spin, "cell 3 0");	
+		answerPanel.add(rangeMark, "cell 0 1");
+		answerPanel.add(rangeMarkPanel, "cell 1 1,grow");
+		rangeMarkPanel.add(answer2, "cell 0 0");
+		rangeMarkPanel.add(answer2Spin, "cell 1 0");
+		rangeMarkPanel.add(range2, "cell 2 0");
+		rangeMarkPanel.add(range2Spin, "cell 3 0");
+		rangeMarkPanel.add(range2mark, "cell 4 0");
+		rangeMarkPanel.add(mark2Spin, "cell 5 0");
+		answerPanel.add(span, "cell 0 2");
+		answerPanel.add(spanPanel, "cell 1 2,grow");
+		spanPanel.add(min, "cell 0 0");
+		spanPanel.add(minSpin, "cell 1 0");
+		spanPanel.add(max, "cell 2 0");
+		spanPanel.add(maxSpin, "cell 3 0");		
+		answerPanel.add(clear, "flowx,cell 1 3,alignx right");
+		answerPanel.add(generate, "cell 1 3,alignx right");
 		
 	}
 
