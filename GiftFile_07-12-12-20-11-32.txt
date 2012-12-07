@@ -1,0 +1,77 @@
+//Question 1
+::True False Question::this statement is true{TRUE}
+
+
+//Question 2
+::Multi choice 1::fifth year is {
+~easy
+=hard work
+}
+
+
+//Question 3
+::multi choice 2::fifth year is {
+~%-100%easy
+~%50%pretty hard
+~%100%very hard
+}
+
+
+//Question 4
+::fill the blank::
+my name is{
+=Gary
+~joe
+}
+ Loughnane
+
+
+//Question 5
+::matching pairs::
+match these names{
+Gary -> Loughnane
+Derek -> O'Connor
+Jonaha -> Murphy
+}
+
+
+//Question 6
+::num 1::
+5 + 5 = ? {#
+10:1
+}
+
+
+//Question 7
+::num 1::
+5 + 5 = ? {#
+=10:0
+=%50%10:1
+}
+
+
+//Question 8
+::num 3::
+5 + 5 = ? {#
+9..11
+}
+
+
+//Question 9
+::numerical with multi feedback::
+5 + 5 = ? {#
+=%100%10:0    # well done
+=%50%10:1    # close - half marks
+}
+
+
+//Question 10
+::write an essay about gift::
+ {}
+
+
+//Question 11
+::erray try 2::
+write an essay about gift {}
+
+

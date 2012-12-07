@@ -1271,6 +1271,16 @@ public class GUI {
 			}
 		});
 		
+		save.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new FileWriter(giftCode.getText());
+				
+			}
+		});
+		
 		panel.add(scrollPane, "cell 0 0, grow");
 		panel.add(clear, "align right, cell 0 1");
 		panel.add(save, "align right, cell 0 1");
