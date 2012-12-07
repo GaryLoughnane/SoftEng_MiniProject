@@ -128,19 +128,8 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-//				boolean answer = false;
-//				
-//				if(isTrue.isSelected()) answer = true;
-//				else if(isFalse.isSelected()) answer = false;
-//				
-//				
-//				giftCode.append("//Question " + questionNumber + "\n");
-//				
-//				giftCode.append(
-//						GiftGenerator.GenerateTrueFalse(titleName.getText(), question.getText(), answer)
-//							+ "\n\n");
-//				
-//				questionNumber++;
+				writeToOutput(GiftGenerator.GenerateEssay(titleName.getText(), question.getText()));				
+
 			}
 		});
 		

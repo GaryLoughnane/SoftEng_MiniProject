@@ -253,13 +253,30 @@ public class GiftGenerator {
 		}
 
 		
-		gift += "\n}";
+		gift += "}";
 		
 		return gift;
 	
 	}
 	
 	
+	public static String GenerateEssay(String title, String question){
+
+		/**
+			Write a short biography of Dag Hammarskjöld. {}
+		**/
+		
+		String gift = "";
+		
+		if(title.compareTo("") != 0){		
+			gift += "::" + title + "::" + "\n";
+		}
+		
+		gift += question + " {}";
+		
+		return gift;
 	
+	}
 	
+
 }
