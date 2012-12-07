@@ -1,4 +1,5 @@
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+
 
 import net.miginfocom.swing.MigLayout;
 
@@ -53,6 +55,8 @@ public class GUI {
 		JPanel fillBlanks = new JPanel();
 		JPanel matching = new JPanel();
 		JPanel numerical = new JPanel();
+		JPanel multiNum = new JPanel();
+		JPanel essay = new JPanel();
 		
 		
 		setupTrueFalse(trueFalse);
@@ -61,6 +65,8 @@ public class GUI {
 		setupFillBlanks(fillBlanks);
 		setupMatching(matching);
 		setupNumerical(numerical);
+		setupMultiNum(multiNum);
+		setupEssay(essay);
 		
 		
 		//create tabbed panel and add each question type panel to it
@@ -71,6 +77,8 @@ public class GUI {
 		inputPanel.addTab("Fill The Blank", fillBlanks);
 		inputPanel.addTab("Matching", matching);
 		inputPanel.addTab("Numerical", numerical);
+		inputPanel.addTab("Numerical Multi", multiNum);
+		inputPanel.addTab("Essay", essay);
 		
 		
 		//create the output panel
@@ -90,6 +98,7 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(mainPanel);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.pack();
 		frame.setVisible(true);
 
 		
@@ -97,15 +106,239 @@ public class GUI {
 	
 	
 	
+	private void setupEssay(JPanel panel) {
+		
+		panel.setLayout(new MigLayout("", "[grow]", "[][][][grow][]"));
+		
+		JLabel explanation = new JLabel("Essay question.");
+			explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
+		JLabel title = new JLabel("Question Title:");
+		final JTextField titleName = new JTextField();
+		
+		JLabel prompt = new JLabel("Enter a question that requires an essay answer.");
+		final JTextArea question = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(question);
+		
+		JButton generate = new JButton("Generate Code");
+		JButton clear = new JButton("Clear");
+		
+		
+		generate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+//				boolean answer = false;
+//				
+//				if(isTrue.isSelected()) answer = true;
+//				else if(isFalse.isSelected()) answer = false;
+//				
+//				
+//				giftCode.append("//Question " + questionNumber + "\n");
+//				
+//				giftCode.append(
+//						GiftGenerator.GenerateTrueFalse(titleName.getText(), question.getText(), answer)
+//							+ "\n\n");
+//				
+//				questionNumber++;
+			}
+		});
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				titleName.setText("");
+				question.setText("");
+				
+			}
+		});
+		
+		
+		panel.add(explanation, "cell 0 0");
+		panel.add(title, "cell 0 1");
+		panel.add(titleName, "cell 0 1, grow");
+		panel.add(prompt, "cell 0 2");		
+		panel.add(scrollPane, "cell 0 3,grow");		
+		panel.add(clear, "align right, cell 0 4");
+		panel.add(generate, "align right, cell 0 4");
+
+		
+	}
+
+	
+	
+	
+	private void setupMultiNum(JPanel panel) {
+
+		panel.setLayout(new MigLayout("", "[grow]", "[][][][][][grow][]"));
+		
+		JLabel explanation = new JLabel("Numerical question with multiple answers, partial credit and feedback.");
+			explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JLabel title= new JLabel("Question Title:");
+		JLabel questionPrompt= new JLabel("Enter a mathamatical question.");
+		final JTextField titleName = new JTextField();
+		final JTextField question = new JTextField();
+		
+		JButton addAnswer = new JButton("Add Answer");
+		JButton remAnswer = new JButton("Remove Answer");
+		JButton clear = new JButton("Clear");
+		JButton generate = new JButton("Generate Code");
+		
+		
+		final ArrayList<JLabel> answerPrompt = new ArrayList<JLabel>();
+		final ArrayList<JLabel> markPrompt = new ArrayList<JLabel>();
+		final ArrayList<JLabel> feedbackPrompt = new ArrayList<JLabel>();
+		final ArrayList<JSpinner> answer = new ArrayList<JSpinner>();
+		final ArrayList<JSpinner> mark = new ArrayList<JSpinner>();
+		final ArrayList<JTextField> feedback = new ArrayList<JTextField>();
+		
+		final Dimension labelSize = new Dimension(0, 20);
+		
+		for(int i=0; i<2; i++){
+			
+			JLabel label1 = new JLabel("Enter answer:");
+			label1.setPreferredSize(labelSize);
+			
+			JLabel label2 = new JLabel("     Enter mark:");
+			label2.setPreferredSize(labelSize);
+			
+			JLabel label3 = new JLabel("     Enter feedback:");
+			label3.setPreferredSize(labelSize);
+			
+			answerPrompt.add(label1);
+			markPrompt.add(label2);
+			feedbackPrompt.add(label3);
+			answer.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
+			mark.add(new JSpinner(new SpinnerNumberModel(0, -100, 100, 1)));
+			feedback.add(new JTextField());
+		}
+		
+		
+		final JPanel answerPanel = new JPanel(new MigLayout("", "[][][][][][grow]", "[]"));
+		
+		
+		addAnswer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JLabel label1 = new JLabel("Enter answer:");
+				label1.setPreferredSize(labelSize);
+				
+				JLabel label2 = new JLabel("     Enter mark:");
+				label2.setPreferredSize(labelSize);
+				
+				JLabel label3 = new JLabel("     Enter feedback:");
+				label3.setPreferredSize(labelSize);
+				
+				answerPrompt.add(label1);
+				markPrompt.add(label2);
+				feedbackPrompt.add(label3);
+				answer.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
+				mark.add(new JSpinner(new SpinnerNumberModel(0, -100, 100, 1)));
+				feedback.add(new JTextField());
+				
+				answerPanel.add(answerPrompt.get(answerPrompt.size()-1), "flowy,cell 0 0");		
+				answerPanel.add(markPrompt.get(markPrompt.size()-1), "flowy,cell 2 0");
+				answerPanel.add(feedbackPrompt.get(feedbackPrompt.size()-1), "flowy,cell 4 0,alignx trailing");
+				answerPanel.add(answer.get(answer.size()-1), "flowy,cell 1 0");
+				answerPanel.add(mark.get(mark.size()-1), "flowy,cell 3 0");
+				answerPanel.add(feedback.get(feedback.size()-1), "flowy,cell 5 0,growx");
+				
+				answerPanel.updateUI();				
+			}
+		});
+		
+		
+		remAnswer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(answer.size()>2){
+				
+					answerPanel.remove(answerPrompt.get(answerPrompt.size()-1));		
+					answerPanel.remove(markPrompt.get(markPrompt.size()-1));
+					answerPanel.remove(feedbackPrompt.get(feedbackPrompt.size()-1));
+					answerPanel.remove(answer.get(answer.size()-1));
+					answerPanel.remove(mark.get(mark.size()-1));
+					answerPanel.remove(feedback.get(feedback.size()-1));
+					
+					answerPrompt.remove(answerPrompt.get(answerPrompt.size()-1));	
+					markPrompt.remove(markPrompt.get(markPrompt.size()-1));
+					feedbackPrompt.remove(feedbackPrompt.get(feedbackPrompt.size()-1));
+					answer.remove(answer.get(answer.size()-1));
+					mark.remove(mark.get(mark.size()-1));
+					feedback.remove(feedback.get(feedback.size()-1));
+					
+					answerPanel.updateUI();
+				}
+			}
+		});
+		
+		
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				titleName.setText("");
+				question.setText("");
+				
+				for(int i=0; i<answerPrompt.size(); i++){
+					
+					answer.get(i).setValue(0);	
+					mark.get(i).setValue(0);
+					feedback.get(i).setText("");
+				}
+				
+			}
+		});	
+		
+		
+		
+		for(int i=0; i<2; i++){
+			
+			answerPanel.add(answerPrompt.get(i), "flowy,cell 0 0");		
+			answerPanel.add(markPrompt.get(i), "flowy,cell 2 0");
+			answerPanel.add(feedbackPrompt.get(i), "flowy,cell 4 0,alignx trailing");
+			answerPanel.add(answer.get(i), "flowy,cell 1 0");
+			answerPanel.add(mark.get(i), "flowy,cell 3 0");
+			answerPanel.add(feedback.get(i), "flowy,cell 5 0,growx");
+		}
+		
+		
+		
+		JScrollPane answerScroll = new JScrollPane(answerPanel);
+		
+		panel.add(explanation, "cell 0 0");		
+		panel.add(title, "flowx,cell 0 1");
+		panel.add(titleName, "cell 0 1,growx");
+		panel.add(questionPrompt, "cell 0 2");
+		panel.add(question, "cell 0 3,growx");
+		panel.add(addAnswer, "flowx,cell 0 4");
+		panel.add(remAnswer, "cell 0 4");
+		panel.add(clear, "flowx,cell 0 6,alignx right");
+		panel.add(generate, "cell 0 6,alignx right");
+		panel.add(answerScroll, "cell 0 5,grow");
+		
+	}
+
+
+
 	private void setupNumerical(JPanel panel) {
 
 		panel.setLayout(new MigLayout("", "[grow]", "[][][][][grow]"));
 		
-		JLabel explanation = new JLabel("Various types of numerical questions");
+		JLabel explanation = new JLabel("Various types of numerical questions.");
 			explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel title = new JLabel("Question Title:");		
-		JLabel answerPrompt = new JLabel("Enter a mathamatical question.");
+		JLabel questionPrompt = new JLabel("Enter a mathamatical question.");
 		final JLabel answer1 = new JLabel("Enter answer:");
 		final JLabel range1 = new JLabel("     Enter range:");	
 		final JLabel answer2 = new JLabel("Enter correct answer:");
@@ -115,8 +348,8 @@ public class GUI {
 		final JLabel max = new JLabel("     Enter max:");
 		
 
-		JTextField question = new JTextField();		
-		JTextField titleName = new JTextField();
+		final JTextField question = new JTextField();		
+		final JTextField titleName = new JTextField();
 		
 		final JSpinner answer1Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
 		final JSpinner range1Spin = new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1));
@@ -266,6 +499,26 @@ public class GUI {
 		});
 		
 		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				titleName.setText("");
+				question.setText("");
+				
+				answer1Spin.setValue(0);
+				range1Spin.setValue(0);
+				answer2Spin.setValue(0);
+				range2Spin.setValue(0);
+				mark2Spin.setValue(0);
+				minSpin.setValue(0);
+				maxSpin.setValue(0);
+				
+			}
+		});	
+		
+		
 		rangePanel.setEnabled(true);
 		rangeMarkPanel.setEnabled(false);
 		spanPanel.setEnabled(false);
@@ -290,7 +543,7 @@ public class GUI {
 		panel.add(explanation, "cell 0 0");	
 		panel.add(title, "flowx,cell 0 1");
 		panel.add(titleName, "flowx,cell 0 1,growx");
-		panel.add(answerPrompt, "cell 0 2");
+		panel.add(questionPrompt, "cell 0 2");
 		panel.add(question, "cell 0 3,growx");
 		panel.add(answerPanel, "cell 0 4,grow");
 		answerPanel.add(range, "cell 0 0");
@@ -532,25 +785,21 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-//				ArrayList<String> answerStrings = new ArrayList<String>();
-//				int correctAnswer = 0;
-//				
-//				for(int i=0; i<answers.size(); i++){
-//					answerStrings.add(answers.get(i).getText());
-//					
-//					if(select.get(i).isSelected()){
-//						correctAnswer = i;
-//					}
-//				}
-//
-//				giftCode.append("//Question " + questionNumber + "\n");
-//				
-//				giftCode.append(
-//						GiftGenerator.GenerateMultiChoice(titleName.getText(), question.getText(), answerStrings, correctAnswer)
-//							+ "\n\n");
-//				
-//				questionNumber++;
+				ArrayList<String> answerStrings = new ArrayList<String>();
+				int correctAnswer = 0;
 				
+				for(int i=0; i<answers.size(); i++){
+					answerStrings.add(answers.get(i).getText());
+					
+					if(select.get(i).isSelected()){
+						correctAnswer = i;
+					}
+				}
+				
+				
+				
+				writeToOutput(GiftGenerator.GenerateMissingWord(titleName.getText(), 
+									questionStart.getText(), answerStrings, correctAnswer, questionEnd.getText()));
 				
 			}
 		});
@@ -610,7 +859,7 @@ public class GUI {
 			explanation.setFont(new Font("Tahoma", Font.BOLD, 12));
 		JLabel title = new JLabel("Question Title:");	
 		JLabel prompt = new JLabel("Enter a question.");
-		JLabel selectPrompt = new JLabel("Enter all possible answers and select one correct answer.");
+		JLabel selectPrompt = new JLabel("Enter all possible answers and add a mark for each.");
 		
 		final JTextField titleName = new JTextField();	
 		
@@ -627,7 +876,7 @@ public class GUI {
 		JButton clear = new JButton("Clear");
 		
 		final ArrayList<JTextField> answers = new ArrayList<JTextField>();
-		final ArrayList<JSpinner> values = new ArrayList<JSpinner>();
+		final ArrayList<JSpinner> marks = new ArrayList<JSpinner>();
 		
 		
 		
@@ -635,7 +884,7 @@ public class GUI {
 			answers.add(new JTextField());
 
 			SpinnerModel spinnerModel = new SpinnerNumberModel(0, -100, 100, 1);
-			values.add(new JSpinner(spinnerModel));
+			marks.add(new JSpinner(spinnerModel));
 			
 		}
 		
@@ -648,10 +897,10 @@ public class GUI {
 				
 				
 				SpinnerModel spinnerModel = new SpinnerNumberModel(0, -100, 100, 1);
-				values.add(new JSpinner(spinnerModel));
+				marks.add(new JSpinner(spinnerModel));
 				
 				answerPanel.add(answers.get(answers.size()-1), "flowy,cell 0 1,growx");
-				answerPanel.add(values.get(values.size()-1), "flowy,cell 1 1,alignx right");
+				answerPanel.add(marks.get(marks.size()-1), "flowy,cell 1 1,alignx right");
 				
 				answerPanel.updateUI();
 				
@@ -667,10 +916,10 @@ public class GUI {
 				if(answers.size()>2){
 				
 					answerPanel.remove(answers.get(answers.size()-1));
-					answerPanel.remove(values.get(values.size()-1));
+					answerPanel.remove(marks.get(marks.size()-1));
 					
 					answers.remove(answers.size()-1);
-					values.remove(values.get(values.size()-1));
+					marks.remove(marks.get(marks.size()-1));
 					
 					answerPanel.updateUI();
 				}
@@ -683,25 +932,17 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-//				ArrayList<String> answerStrings = new ArrayList<String>();
-//				int correctAnswer = 0;
-//				
-//				for(int i=0; i<answers.size(); i++){
-//					answerStrings.add(answers.get(i).getText());
-//					
-//					if(select.get(i).isSelected()){
-//						correctAnswer = i;
-//					}
-//				}
-//
-//				giftCode.append("//Question " + questionNumber + "\n");
-//				
-//				giftCode.append(
-//						GiftGenerator.GenerateMultiChoice(titleName.getText(), question.getText(), answerStrings, correctAnswer)
-//							+ "\n\n");
-//				
-//				questionNumber++;
+				ArrayList<String> answerStrings = new ArrayList<String>();
+				ArrayList<Integer> markInts = new ArrayList<Integer>();
+			
 				
+				for(int i=0; i<answers.size(); i++){
+					answerStrings.add(answers.get(i).getText());
+					markInts.add((Integer) marks.get(i).getValue());
+					
+				}
+
+				writeToOutput(GiftGenerator.GenerateMultiChoice2(titleName.getText(), question.getText(), answerStrings, markInts));
 				
 			}
 		});
@@ -724,7 +965,7 @@ public class GUI {
 		
 		for(int i=0; i<2; i++){
 			answerPanel.add(answers.get(i), "flowy,cell 0 1,growx");
-			answerPanel.add(values.get(i), "flowy,cell 1 1,alignx right");
+			answerPanel.add(marks.get(i), "flowy,cell 1 1,alignx right");
 		}
 				
 		panel.add(explanation, "cell 0 0");
@@ -837,16 +1078,10 @@ public class GUI {
 						correctAnswer = i;
 					}
 				}
+				
+				
+				writeToOutput(GiftGenerator.GenerateMultiChoice1(titleName.getText(), question.getText(), answerStrings, correctAnswer));
 
-				giftCode.append("//Question " + questionNumber + "\n");
-				
-				giftCode.append(
-						GiftGenerator.GenerateMultiChoice(titleName.getText(), question.getText(), answerStrings, correctAnswer)
-							+ "\n\n");
-				
-				questionNumber++;
-				
-				
 			}
 		});
 		
@@ -922,13 +1157,8 @@ public class GUI {
 				else if(isFalse.isSelected()) answer = false;
 				
 				
-				giftCode.append("//Question " + questionNumber + "\n");
+				writeToOutput(GiftGenerator.GenerateTrueFalse(titleName.getText(), question.getText(), answer));
 				
-				giftCode.append(
-						GiftGenerator.GenerateTrueFalse(titleName.getText(), question.getText(), answer)
-							+ "\n\n");
-				
-				questionNumber++;
 			}
 		});
 		
@@ -983,4 +1213,19 @@ public class GUI {
 		panel.add(save, "align right, cell 0 1");
 		
 	}
+	
+	
+	
+	
+	
+	private void writeToOutput(String gift){
+		
+		giftCode.append("//Question " + questionNumber + "\n");
+		
+		giftCode.append(gift + "\n\n\n");
+		
+		questionNumber++;
+		
+	}
+	
 }
