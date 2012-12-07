@@ -375,15 +375,17 @@ public class GUI {
 			spanPanel.setBorder(new TitledBorder(null, "Span", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			
 		
-		JRadioButton range = new JRadioButton("Simple Range");
-		JRadioButton rangeMark = new JRadioButton("Range with mark");
-		JRadioButton span = new JRadioButton("Span");
+		final JRadioButton range = new JRadioButton("Simple Range");
+		final JRadioButton rangeMark = new JRadioButton("Range with mark");
+		final JRadioButton span = new JRadioButton("Span");
 		
 		
 		ButtonGroup selectGroup= new ButtonGroup();
 			selectGroup.add(range);
 			selectGroup.add(rangeMark);
 			selectGroup.add(span);
+			
+		range.setSelected(true);
 			
 			
 		range.addActionListener(new ActionListener() {
@@ -519,6 +521,44 @@ public class GUI {
 		});	
 		
 		
+		generate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if(range.isSelected()){
+					
+					int answer = (Integer) answer1Spin.getValue();
+					int range = (Integer) range1Spin.getValue();
+					
+					writeToOutput(GiftGenerator.GenerateNumerical(titleName.getText(), question.getText(), 1, answer, range, 0));
+					
+					
+				}
+				else if(rangeMark.isSelected()){
+					
+					int answer = (Integer) answer2Spin.getValue();
+					int range = (Integer) range2Spin.getValue();
+					int mark = (Integer) mark2Spin.getValue();
+					
+					writeToOutput(GiftGenerator.GenerateNumerical(titleName.getText(), question.getText(), 2, answer, range, mark));
+					
+					
+				}
+				else if(span.isSelected()){
+					
+					int min = (Integer) minSpin.getValue();
+					int max = (Integer) maxSpin.getValue();
+					
+					writeToOutput(GiftGenerator.GenerateNumerical(titleName.getText(), question.getText(), 3, min, max, 0));
+					
+					
+				}
+				
+			}
+		});
+		
+		
 		rangePanel.setEnabled(true);
 		rangeMarkPanel.setEnabled(false);
 		spanPanel.setEnabled(false);
@@ -538,8 +578,6 @@ public class GUI {
 		max.setEnabled(false);
 		
 	
-			
-		
 		panel.add(explanation, "cell 0 0");	
 		panel.add(title, "flowx,cell 0 1");
 		panel.add(titleName, "flowx,cell 0 1,growx");
@@ -639,26 +677,18 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-//				ArrayList<String> answerStrings = new ArrayList<String>();
-//				int correctAnswer = 0;
-//				
-//				for(int i=0; i<answers.size(); i++){
-//					answerStrings.add(answers.get(i).getText());
-//					
-//					if(select.get(i).isSelected()){
-//						correctAnswer = i;
-//					}
-//				}
-//
-//				giftCode.append("//Question " + questionNumber + "\n");
-//				
-//				giftCode.append(
-//						GiftGenerator.GenerateMultiChoice(titleName.getText(), question.getText(), answerStrings, correctAnswer)
-//							+ "\n\n");
-//				
-//				questionNumber++;
+				ArrayList<String> answer1Strings = new ArrayList<String>();
+				ArrayList<String> answer2Strings = new ArrayList<String>();
 				
 				
+				for(int i=0; i<answer1.size(); i++){
+					answer1Strings.add(answer1.get(i).getText());
+					answer2Strings.add(answer2.get(i).getText());
+					
+				}
+				
+				writeToOutput(GiftGenerator.GenerateMatching(titleName.getText(), question.getText(), answer1Strings, answer2Strings));
+
 			}
 		});
 		
