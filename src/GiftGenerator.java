@@ -226,6 +226,40 @@ public class GiftGenerator {
 	}
 	
 	
+	public static String GenerateNumericalFeedback(String title, String question, 
+					ArrayList<Integer> answers, ArrayList<Integer> range, ArrayList<Integer> partial, ArrayList<String> feedback){
+		
+		/**
+ 			// multiple numeric answers with partial credit and feedback
+			::Q7:: When was Ulysses S. Grant born? {#
+	         =1822:0      # Correct! Full credit.
+	         =%50%1822:2  # He was born in 1822. Half credit for being close.
+			}
+		**/
+		
+		String gift = "";
+		
+		if(title.compareTo("") != 0){		
+			gift += "::" + title + "::" + "\n";
+		}
+		
+		gift += question + " {#\n";
+		
+		
+		for(int i=0; i<answers.size(); i++){
+			
+			gift += "=%" + partial.get(i) + "%" + answers.get(i) + ":" + range.get(i) + "    # " + feedback.get(i) + "\n";
+			
+		}
+
+		
+		gift += "\n}";
+		
+		return gift;
+	
+	}
+	
+	
 	
 	
 }

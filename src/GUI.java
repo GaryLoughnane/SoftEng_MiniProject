@@ -55,7 +55,7 @@ public class GUI {
 		JPanel fillBlanks = new JPanel();
 		JPanel matching = new JPanel();
 		JPanel numerical = new JPanel();
-		JPanel multiNum = new JPanel();
+		JPanel numericalFeedback = new JPanel();
 		JPanel essay = new JPanel();
 		
 		
@@ -65,7 +65,7 @@ public class GUI {
 		setupFillBlanks(fillBlanks);
 		setupMatching(matching);
 		setupNumerical(numerical);
-		setupMultiNum(multiNum);
+		setupNumericalFeedback(numericalFeedback);
 		setupEssay(essay);
 		
 		
@@ -77,7 +77,7 @@ public class GUI {
 		inputPanel.addTab("Fill The Blank", fillBlanks);
 		inputPanel.addTab("Matching", matching);
 		inputPanel.addTab("Numerical", numerical);
-		inputPanel.addTab("Numerical Multi", multiNum);
+		inputPanel.addTab("Numerical Multi", numericalFeedback);
 		inputPanel.addTab("Essay", essay);
 		
 		
@@ -170,7 +170,7 @@ public class GUI {
 	
 	
 	
-	private void setupMultiNum(JPanel panel) {
+	private void setupNumericalFeedback(JPanel panel) {
 
 		panel.setLayout(new MigLayout("", "[grow]", "[][][][][][grow][]"));
 		
@@ -187,11 +187,12 @@ public class GUI {
 		JButton clear = new JButton("Clear");
 		JButton generate = new JButton("Generate Code");
 		
-		
 		final ArrayList<JLabel> answerPrompt = new ArrayList<JLabel>();
+		final ArrayList<JLabel> rangePrompt = new ArrayList<JLabel>();
 		final ArrayList<JLabel> markPrompt = new ArrayList<JLabel>();
 		final ArrayList<JLabel> feedbackPrompt = new ArrayList<JLabel>();
 		final ArrayList<JSpinner> answer = new ArrayList<JSpinner>();
+		final ArrayList<JSpinner> range = new ArrayList<JSpinner>();
 		final ArrayList<JSpinner> mark = new ArrayList<JSpinner>();
 		final ArrayList<JTextField> feedback = new ArrayList<JTextField>();
 		
@@ -208,16 +209,21 @@ public class GUI {
 			JLabel label3 = new JLabel("     Enter feedback:");
 			label3.setPreferredSize(labelSize);
 			
+			JLabel label4 = new JLabel("     Enter range:");
+			label4.setPreferredSize(labelSize);
+			
 			answerPrompt.add(label1);
+			rangePrompt.add(label4);
 			markPrompt.add(label2);
 			feedbackPrompt.add(label3);
 			answer.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
+			range.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
 			mark.add(new JSpinner(new SpinnerNumberModel(0, -100, 100, 1)));
 			feedback.add(new JTextField());
 		}
 		
 		
-		final JPanel answerPanel = new JPanel(new MigLayout("", "[][][][][][grow]", "[]"));
+		final JPanel answerPanel = new JPanel(new MigLayout("", "[][][][][][][][grow]", "[]"));
 		
 		
 		addAnswer.addActionListener(new ActionListener() {
@@ -234,19 +240,26 @@ public class GUI {
 				JLabel label3 = new JLabel("     Enter feedback:");
 				label3.setPreferredSize(labelSize);
 				
+				JLabel label4 = new JLabel("     Enter range:");
+				label4.setPreferredSize(labelSize);
+				
 				answerPrompt.add(label1);
+				rangePrompt.add(label4);
 				markPrompt.add(label2);
 				feedbackPrompt.add(label3);
 				answer.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
+				range.add(new JSpinner(new SpinnerNumberModel(0, -999999999, 999999999, 1)));
 				mark.add(new JSpinner(new SpinnerNumberModel(0, -100, 100, 1)));
 				feedback.add(new JTextField());
 				
-				answerPanel.add(answerPrompt.get(answerPrompt.size()-1), "flowy,cell 0 0");		
-				answerPanel.add(markPrompt.get(markPrompt.size()-1), "flowy,cell 2 0");
-				answerPanel.add(feedbackPrompt.get(feedbackPrompt.size()-1), "flowy,cell 4 0,alignx trailing");
-				answerPanel.add(answer.get(answer.size()-1), "flowy,cell 1 0");
-				answerPanel.add(mark.get(mark.size()-1), "flowy,cell 3 0");
-				answerPanel.add(feedback.get(feedback.size()-1), "flowy,cell 5 0,growx");
+				answerPanel.add(answerPrompt.get(answerPrompt.size()-1), "flowy,cell 0 0");
+				answerPanel.add(answer.get(answer.size()-1), "flowy,cell 1 0");		
+				answerPanel.add(rangePrompt.get(rangePrompt.size()-1), "flowy,cell 2 0");
+				answerPanel.add(range.get(range.size()-1), "flowy,cell 3 0");				
+				answerPanel.add(markPrompt.get(markPrompt.size()-1), "flowy,cell 4 0");
+				answerPanel.add(mark.get(mark.size()-1), "flowy,cell 5 0");
+				answerPanel.add(feedbackPrompt.get(feedbackPrompt.size()-1), "flowy,cell 6 0,alignx trailing");	
+				answerPanel.add(feedback.get(feedback.size()-1), "flowy,cell 7 0,growx");
 				
 				answerPanel.updateUI();				
 			}
@@ -263,16 +276,20 @@ public class GUI {
 					answerPanel.remove(answerPrompt.get(answerPrompt.size()-1));		
 					answerPanel.remove(markPrompt.get(markPrompt.size()-1));
 					answerPanel.remove(feedbackPrompt.get(feedbackPrompt.size()-1));
+					answerPanel.remove(rangePrompt.get(rangePrompt.size()-1));
 					answerPanel.remove(answer.get(answer.size()-1));
 					answerPanel.remove(mark.get(mark.size()-1));
 					answerPanel.remove(feedback.get(feedback.size()-1));
+					answerPanel.remove(range.get(range.size()-1));
 					
 					answerPrompt.remove(answerPrompt.get(answerPrompt.size()-1));	
 					markPrompt.remove(markPrompt.get(markPrompt.size()-1));
 					feedbackPrompt.remove(feedbackPrompt.get(feedbackPrompt.size()-1));
+					rangePrompt.remove(rangePrompt.get(rangePrompt.size()-1));
 					answer.remove(answer.get(answer.size()-1));
 					mark.remove(mark.get(mark.size()-1));
 					feedback.remove(feedback.get(feedback.size()-1));
+					range.remove(range.get(range.size()-1));
 					
 					answerPanel.updateUI();
 				}
@@ -300,15 +317,42 @@ public class GUI {
 		});	
 		
 		
+		generate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ArrayList<Integer> answerInts = new ArrayList<Integer>();
+				ArrayList<Integer> rangeInts = new ArrayList<Integer>();
+				ArrayList<Integer> partialInts = new ArrayList<Integer>();
+				ArrayList<String> feedbackStrings = new ArrayList<String>();
+				
+				for(int i=0; i<answer.size(); i++){
+					
+					answerInts.add((Integer) answer.get(i).getValue());
+					rangeInts.add((Integer) range.get(i).getValue());
+					partialInts.add((Integer) mark.get(i).getValue());
+					feedbackStrings.add(feedback.get(i).getText());				
+				}
+				
+				writeToOutput(GiftGenerator.GenerateNumericalFeedback(titleName.getText(), question.getText(),
+						answerInts, rangeInts, partialInts, feedbackStrings));
+				
+			}
+		});
+		
+		
 		
 		for(int i=0; i<2; i++){
 			
-			answerPanel.add(answerPrompt.get(i), "flowy,cell 0 0");		
-			answerPanel.add(markPrompt.get(i), "flowy,cell 2 0");
-			answerPanel.add(feedbackPrompt.get(i), "flowy,cell 4 0,alignx trailing");
+			answerPanel.add(answerPrompt.get(i), "flowy,cell 0 0");	
 			answerPanel.add(answer.get(i), "flowy,cell 1 0");
-			answerPanel.add(mark.get(i), "flowy,cell 3 0");
-			answerPanel.add(feedback.get(i), "flowy,cell 5 0,growx");
+			answerPanel.add(rangePrompt.get(i), "flowy,cell 2 0");
+			answerPanel.add(range.get(i), "flowy,cell 3 0");	
+			answerPanel.add(markPrompt.get(i), "flowy,cell 4 0");
+			answerPanel.add(mark.get(i), "flowy,cell 5 0");
+			answerPanel.add(feedbackPrompt.get(i), "flowy,cell 6 0,alignx trailing");		
+			answerPanel.add(feedback.get(i), "flowy,cell 7 0,growx");
 		}
 		
 		
